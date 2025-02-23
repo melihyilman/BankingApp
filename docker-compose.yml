@@ -1,0 +1,72 @@
+﻿version: '3.8'
+services:
+  customer-service:
+    image: banking-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+      - "3500:3500"
+    environment:
+      - DAPR_HTTP_PORT=3500
+    command: dapr run --app-id customer-service --app-port 5000 --dapr-http-port 3500 --resources-path /app/components -- dotnet /app/customer/CustomerService.dll
+    depends_on:
+      - kafka
+      - postgres
+
+  account-service:
+    image: banking-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+      - "3501:3501"
+    environment:
+      - DAPR_HTTP_PORT=3501
+    command: dapr run --app-id account-service --app-port 5001 --dapr-http-port 3501 --resources-path /app/components -- dotnet /app/account/AccountService.dll
+    depends_on:
+      - kafka
+      - postgres
+
+  notification-service:
+    image: banking-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+      - "3502:3502"
+    environment:
+      - DAPR_HTTP_PORT=3502
+    command: dapr run --app-id notification-service --app-port 5002 --dapr-http-port 3502 --resources-path /app/components -- dotnet /app/notification/NotificationService.dll
+    depends_on:
+      - kafka
+
+  retry-service:
+    image: banking-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5003"
+      - "3503:3503"
+    environment:
+      - DAPR_HTTP_PORT=3503
+    command: dapr run --app-id retry-service --app-port 5003 --dapr-http-port 3503 --resources-path /app/components -- dotnet /app/retry/RetryService.dll
+    depends_on:
+      - kafka
+
+  kafka:
+    image: apache/kafka:latest
+    ports:
+      - "9092:9092"
+
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"

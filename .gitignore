@@ -1,0 +1,40 @@
+﻿
+# Kullanıcıya özel dosyalar
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build çıktıları
+bin/
+obj/
+out/
+
+# Paketler
+*.nupkg
+packages/
+
+# Test Sonuçları
+TestResults/
+*.trx
+*.coverage
+
+# Visual Studio kod dosyaları
+.vscode/
+
+# Rider ve ReSharper
+.idea/
+*.sln.iml
+
+# MacOS ve Linux sistem dosyaları
+.DS_Store
+*.swp
+
+# Log dosyaları
+*.log
+
+# Diğer cache ve temp dosyaları
+[Tt]emp/
+*.tmp
+~$*
