@@ -10,6 +10,9 @@
 bin/
 obj/
 out/
+Debug/
+Release/
+
 
 # Paketler
 *.nupkg
